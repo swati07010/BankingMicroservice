@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  banking_microservice:
+    image: tomcat:latest
+    container_name: banking_app
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./target:/usr/local/tomcat/webapps
+    networks:
+      - banking_network
+
+networks:
+  banking_network:
+    driver: bridge

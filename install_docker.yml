@@ -1,0 +1,56 @@
+# ---
+# - name: Install Docker and Docker Compose on Ansible Controller and Client
+#   hosts: server  # This will target both [server] and [client] from your inventory
+#   become: true
+#   tasks:
+
+#     # Task 1: Install dependencies for Docker (Rocky Linux)
+#     - name: Install dependencies for Docker (Rocky Linux)
+#       yum:
+#         name:
+#           - yum-utils
+#           - device-mapper-persistent-data
+#           - lvm2
+#           - libcgroup  # Installing libcgroup to resolve dependency issue
+#         state: present
+#       when: ansible_os_family == "RedHat"
+
+#     # Task 2: Add Docker repository (Rocky Linux)
+#     - name: Add Docker repository (Rocky Linux)
+#       yum_repository:
+#         name: docker-ce
+#         description: Docker CE Stable - $basearch
+#         baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+#         enabled: 1
+#         gpgcheck: 1
+#         gpgkey: https://download.docker.com/linux/centos/gpg
+#       when: ansible_os_family == "RedHat"
+
+#     # Task 3: Install Docker (Rocky Linux)
+#     - name: Install Docker (Rocky Linux)
+#       yum:
+#         name: docker-ce
+#         state: present
+#       when: ansible_os_family == "RedHat"
+
+#     # Task 4: Install Docker Compose (Rocky Linux)
+#     - name: Install Docker Compose (Rocky Linux)
+#       shell: |
+#         curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+#         chmod +x /usr/local/bin/docker-compose
+#       when: ansible_os_family == "RedHat"
+
+#     # Task 5: Start Docker service on Ansible Controller and Client
+#     - name: Start Docker service (Rocky Linux)
+#       service:
+#         name: docker
+#         state: started
+#         enabled: yes
+#       when: ansible_os_family == "RedHat"
+
+#     # Task 6: Pull Docker Image (without creating container)
+#     - name: Pull Docker image (Rocky Linux)
+#       docker_image:
+#         name: httpd  # You can change this to another image if needed
+#         source: pull
+#       when: ansible_os_family == "RedHat"
